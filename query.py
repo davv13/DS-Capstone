@@ -1,11 +1,15 @@
+import os
 import argparse
-from dataclasses import dataclass
-from langchain.chat_models import ChatOpenAI
-from langchain.vectorstores.chroma import Chroma
-from langchain.prompts import ChatPromptTemplate
-from langchain.embeddings import OpenAIEmbeddings
 
-CHROMA_PATH = "chroma"
+from langchain_openai import ChatOpenAI
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import Chroma
+from langchain_core.prompts import ChatPromptTemplate
+
+with open('openai_api_key.txt','r') as f:
+    os.environ["OPENAI_API_KEY"] = f.read()
+
+CHROMA_PATH = "chromadb"
 
 PROMPT_TEMPLATE = """
 Answer the question based only on the following context:
@@ -19,17 +23,14 @@ Answer the question based on the above context: {question}
 
 
 def main():
-    # Create CLI.
     parser = argparse.ArgumentParser()
     parser.add_argument("query_text", type=str, help="The query text.")
     args = parser.parse_args()
     query_text = args.query_text
 
-    # Prepare the DB.
     embedding_function = OpenAIEmbeddings()
     db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
 
-    # Search the DB.
     results = db.similarity_search_with_relevance_scores(query_text, k=3)
     if len(results) == 0 or results[0][1] < 0.7:
         print(f"Unable to find matching results.")

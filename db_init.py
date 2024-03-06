@@ -4,12 +4,14 @@ import shutil
 from langchain.schema import Document
 from langchain.vectorstores.chroma import Chroma
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.document_loaders import DirectoryLoader
+from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 CHROMA_PATH = "chromadb"
 DATA_PATH = "data"
 
+with open('openai_api_key.txt','r') as f:
+    os.environ["OPENAI_API_KEY"] = f.read()
 
 def main():
     generate_data_store()
