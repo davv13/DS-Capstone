@@ -9,11 +9,12 @@ from langchain.indexes.vectorstore import VectorStoreIndexWrapper
 from langchain.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 
-if "OPENAI_API_KEY" in st.secrets:
-    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
-else:
-    # Stop the app if the API key is not found in Streamlit secrets
-    st.error("OpenAI API key not found. Please set the OPENAI_API_KEY in Streamlit secrets.")
+api_key_path = 'openai_api_key.txt'
+try:
+    with open(api_key_path, 'r') as f:
+        os.environ["OPENAI_API_KEY"] = f.read().strip()
+except FileNotFoundError:
+    st.error(f"API key file '{api_key_path}' not found. Please make sure the file exists.")
     st.stop()
 
 PERSIST = False
