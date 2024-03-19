@@ -17,6 +17,11 @@ except FileNotFoundError:
     st.error(f"API key file '{api_key_path}' not found. Please make sure the file exists.")
     st.stop()
 
+
+openai_api_key = st.secrets["OPENAI_API_KEY"]
+
+os.environ["OPENAI_API_KEY"] = openai_api_key
+
 PERSIST = False
 DATA_DIRECTORY = "data/"
 
