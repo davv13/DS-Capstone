@@ -7,17 +7,17 @@ from langchain.indexes import VectorstoreIndexCreator
 from langchain.document_loaders import DirectoryLoader
 from langchain.indexes.vectorstore import VectorStoreIndexWrapper
 
-# For local development 
 # api_key_path = 'openai_api_key.txt'
  
-api_key_path = st.secrets["OPENAI_API_KEY"]
+os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
-try:
-    with open(api_key_path, 'r') as f:
-        os.environ["OPENAI_API_KEY"] = f.read().strip()
-except FileNotFoundError:
-    st.error(f"API key file '{api_key_path}' not found. Please make sure the file exists.")
-    st.stop()
+
+# try:
+#     with open(api_key_path, 'r') as f:
+#         os.environ["OPENAI_API_KEY"] = f.read().strip()
+# except FileNotFoundError:
+#     st.error(f"API key file '{api_key_path}' not found. Please make sure the file exists.")
+#     st.stop()
 
 PERSIST = False
 DATA_DIRECTORY = "data/"
