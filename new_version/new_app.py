@@ -7,7 +7,10 @@ from langchain.indexes import VectorstoreIndexCreator
 from langchain.document_loaders import DirectoryLoader
 from langchain.indexes.vectorstore import VectorStoreIndexWrapper
 
-api_key_path = 'openai_api_key.txt'
+# For local development 
+# api_key_path = 'openai_api_key.txt'
+ 
+api_key_path = st.secrets["OPENAI_API_KEY"]
 
 try:
     with open(api_key_path, 'r') as f:
