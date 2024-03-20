@@ -1,15 +1,17 @@
 import os
 import streamlit as st
-from langchain.chains import ConversationalRetrievalChain
-from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders import DirectoryLoader
-from langchain.indexes.vectorstore import VectorStoreIndexWrapper
-from langchain.indexes import VectorstoreIndexCreator
-from langchain.indexes.vectorstore import VectorStoreIndexWrapper
+
 from langchain.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
+from langchain.indexes import VectorstoreIndexCreator
+from langchain.document_loaders import DirectoryLoader
+from langchain.indexes.vectorstore import VectorStoreIndexWrapper
 
-api_key_path = 'openai_api_key.txt'
+# For local development 
+# api_key_path = 'openai_api_key.txt'
+ 
+api_key_path = st.secrets["OPENAI_API_KEY"]
+
 try:
     with open(api_key_path, 'r') as f:
         os.environ["OPENAI_API_KEY"] = f.read().strip()
